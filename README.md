@@ -13,25 +13,7 @@ which supported RS232 over IP by implementing a subset of the published iTach TC
 While Open Source projects existed to emulate iTach IR devices, none implemented raw access
 to serial ports via TCP. For my home, I paired this with [Flex IP](https://amazon.com/Global-Cache-iTach-Flex-IP/dp/B00C6FRPIC/?tag=carreramfi-20) hardware devices for cases where the serial port connection wasn't in the rack with my Raspberry Pi.
 
-Built as a Docker container (with additional support for
-making it a plug-and-play [HASS.IO](https://www.home-assistant.io/hassio/) add-on
-for Home Assistant](https://www.home-assistant.io/), this can also easily be
-used as a standalone server outside of any Home Assistant environment.
-
-#### Running Standalone
-
-```bash
-python3 ip2sl
-```
-
-...or under Docker (may require modifying Dockerfile to specify the BUILD_FROM architecture base you need):
-
-```bash
-docker build -t virtual-ip2sl .
-docker run virtual-ip2sl
-```
-
-#### Configuration
+## Configuration
 
 By default, the Virtual IP2SL is configured to open a single port attached 
 at 9600 baud to one USB serial port adapter on //dev/ttyUSB0. However, a
@@ -65,7 +47,30 @@ serial:
     baud: 115200
 ```
 
-#### Network Ports
+## Running
+
+#### Standalone
+
+```bash
+python3 ip2sl
+```
+
+#### As Docker Container
+
+Under Docker (may require modifying Dockerfile to specify the BUILD_FROM architecture base you need):
+
+```bash
+docker build -t virtual-ip2sl .
+docker run virtual-ip2sl
+```
+
+#### As Home Assistant Hass.io Add-On
+
+To run as a Home Assistant Hass.io add-on, install the repository:
+
+ https://github.com/rsnodgrass/hassio-addons
+
+## Network Ports
 
 This microservice implements the open AMX Discovery Beacon protocol, raw TCP sockets to 
 RS232 serial ports, and a TCP Port exposing the iTach command protocol.
@@ -92,7 +97,7 @@ TCP port.
 If no configuration exists for a given serial port (1-8), the associated TCP port
 will not be opened.
 
-#### Example TTY Paths
+## Example TTY Paths
 
 The following are a variety of example TTY paths for different serial port interfaces:
 
@@ -109,6 +114,8 @@ The following are a variety of example TTY paths for different serial port inter
 | /dev/tty.usbserial-A501SGSV | StarTach ICUSB232I (8-port) serial port 2 (MacOS)   |
 
 ## See Also
+
+* [Virtual IP2SL for Home Assistant](https://github.com/rsnodgrass/hassio-addons)
 
 #### Clients
 
