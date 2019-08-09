@@ -64,6 +64,10 @@ docker build -t virtual-ip2sl .
 docker run virtual-ip2sl
 ```
 
+NOTE: Since multicast is not supported from within a Docker container, the AMX discovery beacon will
+not be published so you must manually configure clients to communicate with your Virtual IP2SL
+instance.
+
 #### As Home Assistant Hass.io Add-On
 
 To run as a Home Assistant Hass.io add-on, install the repository:
@@ -162,3 +166,5 @@ Ideas for eventual implementation (**feel free to contribute; no plans by me to 
 * web UI console showing details about the config and each port (including metrics)
 * emulation compatibility for [GC-100-xx](https://www.globalcache.com/files/docs/API-GC-100.pdf)
 * add an optional MQTT interface
+* when Docker supports UDP multicast publishing from within a container, enable beacon for Docker image
+
