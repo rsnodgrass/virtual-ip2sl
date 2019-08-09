@@ -115,7 +115,7 @@ The following are a variety of example TTY paths for different serial port inter
 
 ## See Also
 
-* [Virtual IP2SL for Home Assistant](https://github.com/rsnodgrass/hassio-addons)
+* [Virtual IP2SL for Home Assistant](https://github.com/rsnodgrass/hassio-addons/tree/master/virtual-ip2sl-addon)
 
 #### Clients
 
