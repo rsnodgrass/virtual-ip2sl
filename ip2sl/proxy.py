@@ -116,4 +116,5 @@ def start_proxy(port_number, serial_config, config):
 def start_serial_proxies(config):
     # start the individual TCP listeners for each serial port proxy
     for port_number, serial_config in config['serial'].items():
+        port_number = int(port_number)
         start_proxy(port_number, serial_config, config)
