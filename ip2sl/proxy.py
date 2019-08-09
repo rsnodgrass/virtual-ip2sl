@@ -48,10 +48,10 @@ class TCPToSerialProxy(socketserver.StreamRequestHandler):
     def handle(self):
         tcp_client = self.request 
 
-        # FIXME: could we add MORE layers here :(
-        raw_serial = self._server._serial._serial
+        ip2s = self._server._serial
+        raw_serial = ip2s.get_raw_serial()
         serial_fd = raw_serial.fileno()
-        tty_path = self._server._serial._tty_path
+        tty_path = ip2s._tty_path
 
         check_if_running_delay = 2.0
         while self._running:
