@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 MULTICAST_PORT = 9131
 MULTICAST_IP   = '239.255.250.250'
-MULTICAST_TTL  = 2 # after TWO network hops the beacon packet should be discarded
+MULTICAST_TTL  = int(os.getenv('IP2SL_BEACON_HOPS', 2)) # after TWO network hops the beacon packet should be discarded
 
 # Implements a version of the AMX Beacon device discovery protocol with periodic heartbeats
 class AMXDiscoveryBeacon():
