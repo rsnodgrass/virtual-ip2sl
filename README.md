@@ -13,6 +13,8 @@ which supported RS232 over IP by implementing a subset of the published iTach TC
 While Open Source projects existed to emulate iTach IR devices, none implemented raw access
 to serial ports via TCP. For my home, I paired this with [Flex IP](https://amazon.com/Global-Cache-iTach-Flex-IP/dp/B00C6FRPIC/?tag=carreramfi-20) hardware devices for cases where the serial port connection wasn't in the rack with my Raspberry Pi.
 
+**NOTE: The IP2SL protocol definition does not provide any authentication or security model. Caveat emptor!**
+
 ## Configuration
 
 By default, the Virtual IP2SL is configured to open a single port attached 
