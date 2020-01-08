@@ -4,3 +4,10 @@ serial:
   1: # port 1
     path: /dev/ttyUSB0
     baud: 9600
+
+# For a minimal seurity improvement, you can specify the IP addresses that are allowed to
+# connect to the Virtual IP2SL server.
+#
+# allowed_ips:
+#  - 10.10.1.7
+#  - 10.10.1.9

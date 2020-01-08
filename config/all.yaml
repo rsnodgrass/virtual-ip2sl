@@ -50,3 +50,4 @@ serial:
     flow: DUPLEX_FULL, # duplex = RS485
     parity: PARITY_NO,
     stop_bits: STOPBITS_1
+
