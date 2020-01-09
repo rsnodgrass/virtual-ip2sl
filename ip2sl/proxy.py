@@ -10,7 +10,7 @@ import socketserver
 import util
 import ip2serial
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 BUFFER_SIZE=4096
 
@@ -28,6 +28,8 @@ Serial_Proxies = {}
 def get_serial_proxies():
     return Serial_Proxies
 
+ALLOWED_IPS = []
+
 """ 
 Handler that proxies data to/from a specific serial port to the connected TCP
 connection. This is instantiated once per client connection.  Since the serial
@@ -37,16 +39,22 @@ instantiated at a time (this is the default behavior given the current threading
 class TCPToSerialProxy(socketserver.StreamRequestHandler):
 
     def __init__(self, request, client_address, server):
-        log.debug(f"New serial connection from %s: %s", client_address[0], request)
+        LOG.debug(f"New serial connection from %s: %s", client_address[0], request)
         self._server = server
         self._client_id = client_address[0]
+
+        if not ALLOWED_IPS.empty?:
+            if not self._client_id in ALLOWED_IPS:
+                LOG.warning("Client IP '%s' not on allowed list, ignoring proxy request!", self._client_id)
+                raise Exception('Client IP not allowed')
+
         self._running = True
 
         # call the baseclass initializer as the last thing; note __init__ waits on bytes to call handle()
         socketserver.StreamRequestHandler.__init__(self, request, client_address, server)
 
-    def handle(self):
-        tcp_client = self.request 
+    def handle(self):        
+        tcp_client = self.request
 
         ip2s = self._server._serial
         raw_serial = ip2s.get_raw_serial()
@@ -60,7 +68,7 @@ class TCPToSerialProxy(socketserver.StreamRequestHandler):
 
             if tcp_client in read_ready:
                 data = tcp_client.recv(BUFFER_SIZE)
-                log.debug("Proxy %s --> %s: %s", self._client_id, tty_path, data)
+                LOG.debug("Proxy %s --> %s: %s", self._client_id, tty_path, data)
                 print(f"Proxy {self._client_id} --> {tty_path}: {data}")
                 if raw_serial.write(data) <= 0:
                         break
@@ -69,7 +77,7 @@ class TCPToSerialProxy(socketserver.StreamRequestHandler):
             if serial_fd in read_ready:
                 time.sleep(0.05) # wait 50 ms for serial buffer to queue up
                 data = raw_serial.read(raw_serial.in_waiting)
-                log.debug("Proxy %s <-- %s: %s", self._client_id, tty_path, data)
+                LOG.debug("Proxy %s <-- %s: %s", self._client_id, tty_path, data)
                 print(f"Proxy {self._client_id} <-- {tty_path}: {data}")
                 if tcp_client.send(data) <= 0:
                         break
@@ -85,7 +93,7 @@ def stop_all_listeners():
         stop_proxy(port_number)
 
 def stop_proxy(port_number):
-    log.debug(f"Stopping proxy for serial {port_number}")
+    LOG.debug(f"Stopping proxy for serial {port_number}")
     server = Serial_Proxies[port_number]
     if server != None:
        server.shutdown()
@@ -95,14 +103,14 @@ def start_proxy(port_number, serial_config, config):
     host = util.get_host(config)
     tcp_port = SERIAL_PORT_TO_TCP_PORT[port_number]
 
-    log.info(f"Serial {port_number} (TCP port {host}:{tcp_port}) config: {serial_config}")
+    LOG.info(f"Serial {port_number} (TCP port {host}:{tcp_port}) config: {serial_config}")
     serial_connection = ip2serial.IP2SLSerialInterface(serial_config)
 
     # FIXME: if serial port /dev/tty does not exist, should port be opened? or pending connection of device?
     # ...or a queue that is checked periodically and reopened?
 
     # each listener has a dedicated thread (one thread per port, as serial port communication isn't multiplexed)        
-    log.info(f"Starting thread for TCP proxy to serial {port_number} at {host}:{tcp_port}")
+    LOG.info(f"Starting thread for TCP proxy to serial {port_number} at {host}:{tcp_port}")
     proxy = IP2SLServer((host, tcp_port), TCPToSerialProxy, serial_connection)
     
     proxy_thread = threading.Thread(target=proxy.serve_forever)

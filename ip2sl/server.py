@@ -19,7 +19,7 @@ import util
 import beacon
 from proxy import start_serial_proxies, get_serial_proxies
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 FLEX_TCP_API_VERSION = '1.6'
 FLEX_TCP_COMMAND_PORT = 4998
@@ -44,10 +44,19 @@ threads = []
 
 config = util.load_config()
 
+ALLOWED_IPS = []
+
 class FlexCommandTCPHandler(socketserver.BaseRequestHandler):
     def handle(self):
+        client_ip = self.client_address[0]
+        
+        if not ALLOWED_IPS.empty?:
+            if not self.client_ip in ALLOWED_IPS:
+                LOG.warning("Client IP '%s' not on allowed list, ignoring request!", client_ip)
+                raise Exception('Client IP not allowed')
+
         self._data = self.request.recv(1024).strip().decode()
-        log.debug(f"{self.client_address[0]} sent command: %s", self._data)
+        LOG.debug(f"{client_ip} sent command: %s", self._data)
 
         if self._data.startswith('getdevices'):
             self.handle_getdevices()
@@ -63,11 +72,11 @@ class FlexCommandTCPHandler(socketserver.BaseRequestHandler):
             self.return_error(ERR_INVALID_REQUEST, "Unknown request: {self._data}")
 
     def return_error(self, error_code, message):
-        log.error(f"Error reply '{error_code}': {message}")
+        LOG.error(f"Error reply '{error_code}': {message}")
         self.send_response(error_code)
 
     def send_response(self, response):
-        log.info(f"Sending response: {response}")
+        LOG.info(f"Sending response: {response}")
         self.request.sendall(response.encode())
 
     def handle_getdevices(self):
@@ -151,7 +160,7 @@ def web_console():
 
 @atexit.register
 def shutdown_listeners():
-    log.info("Atexit handler shutdown_listeners()")
+    LOG.info("Atexit handler shutdown_listeners()")
     #stop_all_listeners()
     #command_server.shutdown()
     #command_server.server_close()
@@ -159,7 +168,7 @@ def shutdown_listeners():
 def start_command_listener():
     host = util.get_host(config)
 
-    log.info(f"Starting Flex TCP command listener at {host}:{FLEX_TCP_COMMAND_PORT}")
+    LOG.info(f"Starting Flex TCP command listener at {host}:{FLEX_TCP_COMMAND_PORT}")
     server = ThreadedTCPServer((host, FLEX_TCP_COMMAND_PORT), FlexCommandTCPHandler)
 
     # the command listener is in its own thread which then creates a new thread for each TCP request
@@ -178,7 +187,7 @@ def main():
     # run the http console server in the main thread
 #    host = util.get_host(config)
 #    console_port = int(os.getenv('IP2SL_CONSOLE_PORT', 8232))
-#    log.info(f"Starting UI console at http://{host}:{console_port}")
+#    LOG.info(f"Starting UI console at http://{host}:{console_port}")
 #    app.run(debug=True, host=host, port=console_port)
 
     # wait for all threads to complete before exiting
