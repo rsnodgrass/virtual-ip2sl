@@ -50,7 +50,7 @@ class FlexCommandTCPHandler(socketserver.BaseRequestHandler):
     def handle(self):
         client_ip = self.client_address[0]
         
-        if not ALLOWED_IPS.empty?:
+        if len(ALLOWED_IPS) > 0:
             if not self.client_ip in ALLOWED_IPS:
                 LOG.warning("Client IP '%s' not on allowed list, ignoring request!", client_ip)
                 raise Exception('Client IP not allowed')

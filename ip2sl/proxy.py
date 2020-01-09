@@ -43,7 +43,7 @@ class TCPToSerialProxy(socketserver.StreamRequestHandler):
         self._server = server
         self._client_id = client_address[0]
 
-        if not ALLOWED_IPS.empty?:
+        if len(ALLOWED_IPS) > 0:
             if not self._client_id in ALLOWED_IPS:
                 LOG.warning("Client IP '%s' not on allowed list, ignoring proxy request!", self._client_id)
                 raise Exception('Client IP not allowed')
