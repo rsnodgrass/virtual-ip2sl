@@ -20,6 +20,15 @@ to serial ports via TCP. For my home, I paired this with [Flex IP](https://amazo
 * IP2SL has no authentication model for command/control or for communication
 * all traffic is sent unencrypted over network
 
+A minimial security improvement is restricting which IP addresses can connect to the Virtual IP2SL server.
+Here is a config example:
+
+```
+allowed_ip:
+  - 10.10.1.7
+  - 10.10.1.132
+```
+
 ## Configuration
 
 By default, the Virtual IP2SL is configured to open a single port attached 
@@ -163,7 +172,6 @@ implement features, stability improvements, etc.
 
 Planned:
 
-* security improvement: add ability to specify the allowed IP addresses for talking to any of the ports
 * improve error handling (e.g. invalid port modules specified in get_SERIAL)
 
 Ideas for eventual implementation (**feel free to contribute; no plans by me to add**):
