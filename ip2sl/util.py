@@ -29,8 +29,9 @@ def load_config(config_file='config/default.yaml'):
 ALLOWED_CLIENT_IPS = []
 
 def configure_allowed_client_ips(config):
-#    FIXME: populate ALLOWED_CLIENT_IPS
-    ALLOWED_CLIENT_IPS = []
+    for ip in config['allowed_ips']:
+        ALLOWED_CLIENT_IPS.append(ip)
+
     if len(ALLOWED_CLIENT_IPS) > 0:
         LOG.info(f"Only allowing IP connections for control and proxy from these IP addresses: %s", ALLOWED_CLIENT_IPS)
     return
