@@ -163,6 +163,7 @@ implement features, stability improvements, etc.
 
 Planned:
 
+* security improvement: add ability to specify the allowed IP addresses for talking to any of the ports
 * improve error handling (e.g. invalid port modules specified in get_SERIAL)
 
 Ideas for eventual implementation (**feel free to contribute; no plans by me to add**):
