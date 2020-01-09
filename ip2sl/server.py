@@ -17,7 +17,9 @@ import socketserver
 
 import util
 import beacon
+
 from proxy import start_serial_proxies, get_serial_proxies
+from util import ALLOWED_CLIENT_IPS
 
 LOG = logging.getLogger(__name__)
 
@@ -44,14 +46,12 @@ threads = []
 
 config = util.load_config()
 
-ALLOWED_IPS = []
-
 class FlexCommandTCPHandler(socketserver.BaseRequestHandler):
     def handle(self):
         client_ip = self.client_address[0]
         
-        if len(ALLOWED_IPS) > 0:
-            if not self.client_ip in ALLOWED_IPS:
+        if len(ALLOWED_CLIENT_IPS) > 0:
+            if not self.client_ip in ALLOWED_CLIENT_IPS:
                 LOG.warning("Client IP '%s' not on allowed list, ignoring request!", client_ip)
                 raise Exception('Client IP not allowed')
 
@@ -167,6 +167,8 @@ def shutdown_listeners():
 
 def start_command_listener():
     host = util.get_host(config)
+    
+    util.configure_allowed_client_ips(config)
 
     LOG.info(f"Starting Flex TCP command listener at {host}:{FLEX_TCP_COMMAND_PORT}")
     server = ThreadedTCPServer((host, FLEX_TCP_COMMAND_PORT), FlexCommandTCPHandler)

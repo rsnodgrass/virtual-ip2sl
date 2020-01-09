@@ -25,3 +25,12 @@ def load_config(config_file='config/default.yaml'):
         except yaml.YAMLError as exc:
             sys.stderr.write(f"FATAL! {exc}")
             sys.exit(1)
+
+ALLOWED_CLIENT_IPS = []
+
+def configure_allowed_client_ips(config):
+#    FIXME: populate ALLOWED_CLIENT_IPS
+    ALLOWED_CLIENT_IPS = []
+    if len(ALLOWED_CLIENT_IPS) > 0:
+        LOG.info(f"Only allowing IP connections for control and proxy from these IP addresses: %s", ALLOWED_CLIENT_IPS)
+    return

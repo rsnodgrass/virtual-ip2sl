@@ -10,6 +10,8 @@ import socketserver
 import util
 import ip2serial
 
+from util import ALLOWED_CLIENT_IPS
+
 LOG = logging.getLogger(__name__)
 
 BUFFER_SIZE=4096
@@ -28,8 +30,6 @@ Serial_Proxies = {}
 def get_serial_proxies():
     return Serial_Proxies
 
-ALLOWED_IPS = []
-
 """ 
 Handler that proxies data to/from a specific serial port to the connected TCP
 connection. This is instantiated once per client connection.  Since the serial
@@ -43,8 +43,8 @@ class TCPToSerialProxy(socketserver.StreamRequestHandler):
         self._server = server
         self._client_id = client_address[0]
 
-        if len(ALLOWED_IPS) > 0:
-            if not self._client_id in ALLOWED_IPS:
+        if len(ALLOWED_CLIENT_IPS) > 0:
+            if not self._client_id in ALLOWED_CLIENT_IPS:
                 LOG.warning("Client IP '%s' not on allowed list, ignoring proxy request!", self._client_id)
                 raise Exception('Client IP not allowed')
 
