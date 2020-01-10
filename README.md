@@ -156,6 +156,9 @@ Special thanks to [Global Caché](https://www.globalcache.com/products/) for ope
 * [GlobalCovfefe](https://platformio.org/lib/show/5679/GlobalCovfefe): Global Cache device emulator with one IR sender and one optional IR learner
 * [ESP8266iTachEmulator](https://github.com/probonopd/ESP8266iTachEmulator): iTach/LIRC IP2IR emulator for IR signals
 * [Global Cache Wireless Emulator (ESP8266)](https://hackaday.io/project/8233-global-cache-wireless-emulator-esp8266)
+* [socat](https://linux.die.net/man/1/socat) / [ser2net](https://linux.die.net/man/8/ser2net)
+
+Note that [socat](https://linux.die.net/man/1/socat) clients can communicate with any IP2SL exposed serial device.
 
 ## Community Support
 
