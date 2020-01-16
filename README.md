@@ -132,6 +132,7 @@ The following are a variety of example TTY paths for different serial port inter
 | /dev/ttyUSB1                | Raspberry Pi USB serial adapter 2                   |
 | /dev/tty.usbserial-A501SGSU | StarTach ICUSB232I (8-port) serial port 1 (MacOS)   |
 | /dev/tty.usbserial-A501SGSV | StarTach ICUSB232I (8-port) serial port 2 (MacOS)   |
+| /sys/class/tty/ttyUSB0      | StarTach ICUSB232I (8-port) serial port 1 (RPi)     |
 
 ## See Also
 
