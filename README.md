@@ -1,7 +1,9 @@
 # Virtual IP2SL (IP to Serial)
 
+![beta_badge](https://img.shields.io/badge/maturity-Beta-yellow.png)
+![release_badge](https://img.shields.io/github/v/release/rsnodgrass/virtual-ip2sl.svg)
+![release_date](https://img.shields.io/github/release-date/rsnodgrass/virtual-ip2sl.svg)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=WREP29UDAMB6G)
 
 Provides bidirectional TCP-to-serial access to physical serial ports connected to the
 host running this microservice by emulating an iTach IP to Serial (IP2SL). Each instance
