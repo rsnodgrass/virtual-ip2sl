@@ -1,4 +1,4 @@
-ARG BUILD_FROM=jfloff/alpine-python:3.6-onbuild
+ARG BUILD_FROM=jfloff/alpine-python:3.8-onbuild
 FROM $BUILD_FROM
 
 ARG BUILD_ARCH
