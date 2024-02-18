@@ -190,3 +190,7 @@ Ideas for eventual implementation (**feel free to contribute; no plans by me to 
 * add an optional MQTT interface
 * when Docker supports UDP multicast publishing from within a container, enable beacon for Docker image
 
+
+## See Also
+
+* [RS232 to USB cable](https://www.amazon.com/RS232-to-USB/dp/B0759HSLP1?tag=carreramfi-20)
